@@ -1,0 +1,57 @@
+/*{
+	"type": "action",
+	"author": "Brent Jones",
+	"version": "0.1",
+	"description": "Cycle project type.",
+}*/
+(() =>
+    Object.assign(
+        new PlugIn.Action(selection => {
+            // OMNI JS CODE ---------------------------------------
+            const omniJSContext = () => {
+                // main :: ()
+                const main = () => {
+                    const
+                        ps = selection.projects;
+                        projectTypes = []
+                        ps.forEach(x => (
+                            x.containsSingletonActions ? projectTypes.push('A') : x.sequential ? projectTypes.push('B') : projectTypes.push('C'))
+                        )
+                        whichTypes = new Set(projectTypes)
+
+                        console.log(whichTypes.size, ...whichTypes.keys())
+
+                        if (whichTypes.size > 1 || [...whichTypes.keys()] == 'C') {
+                            var single = false;
+                            var seq = true;
+                        }
+                        else if ([...whichTypes.keys()] == 'A') {
+                            var single = false;
+                            var seq = false;
+                        }
+                        else {
+                            var single = true;
+                            var seq = false;
+                        }
+
+                    return (
+                        ps.forEach(x => {
+                            x.containsSingletonActions = single,
+                            x.sequential = seq;
+                        `Changed the project type of ${
+                            ps.length
+                        } projects.` 
+                    })
+                    )
+
+                }
+
+                return main()
+            };
+
+            return omniJSContext()
+        }), {
+            validate: selection => 
+                selection.projects.length > 0
+        })
+)();
