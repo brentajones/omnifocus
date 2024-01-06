@@ -1,0 +1,45 @@
+/*{
+	"type": "action",
+	"targets": ["omnifocus"],
+	"author": "Brent Jones",
+	"version": "1.0",
+	"description": "A plugin to toggle 'complete with last action'.",
+	"label": "Toggle 'Complete with last action'",
+	"shortLabel": "✓ w/ actions",
+	"paletteLabel": "✓ w/ actions",
+	"image": "list.bullet.indent"
+}*/
+(() => {
+  const action = new PlugIn.Action(async function (selection, sender) {
+    try {
+      // selection options: tasks, projects, folders, tags, databaseObjects, allObjects
+
+      selectedItems = new Array();
+      selectedItems = selectedItems.concat(selection.tasks);
+      selectedItems = selectedItems.concat(selection.projects);
+
+      //PROCESSING STATEMENTS GO HERE
+      selectedItems.forEach((x) => {
+        for (let i = 0; i < x.length; i++) {
+          const element = x[i];
+          
+          if (element.hasChildren) {
+            element.completedByChildren = !element.completedByChildren
+          };
+        }
+      });
+    } catch (err) {
+      if (!err.causedByUserCancelling) {
+        console.error(err.name, err.message);
+        //new Alert(err.name, err.message).show()
+      }
+    }
+  });
+
+  action.validate = function (selection, sender) {
+    // selection options: tasks, projects, folders, tags, databaseObjects, allObjects
+    return selection.tasks.length > 0 || selection.projects.length > 0;
+  };
+
+  return action;
+})();
