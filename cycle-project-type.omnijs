@@ -2,7 +2,11 @@
 	"type": "action",
 	"author": "Brent Jones",
 	"version": "0.1",
-	"description": "Cycle project type.",
+	"description": "Cycles the project type (sequential, parallel, single-action)",
+    "label": "Cycle project type",
+	"shortLabel": "Cycle proj. type",
+	"paletteLabel": "Cycle proj. type",
+	"image": "arrow.3.trianglepath"
 }*/
 (() =>
     Object.assign(
